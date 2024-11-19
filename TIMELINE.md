@@ -9,7 +9,7 @@ Figuring out how to structure some code
 ### What do you plan to do tomorrow?
 Finishing collector subsystem and commands & research
 ## Day 2 (11/19)
-
+ya
 ### What did you do?
 
 ### What challenges did you have?
