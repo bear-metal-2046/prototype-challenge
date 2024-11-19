@@ -3,11 +3,11 @@
 ## Day 1 (11/18)
 
 ### What did you do?
-
+Working on collector subsystem state machine and setters
 ### What challenges did you have?
-
+Figuring out how to structure some code
 ### What do you plan to do tomorrow?
-
+Finishing collector subsystem and commands & research
 ## Day 2 (11/19)
 
 ### What did you do?
