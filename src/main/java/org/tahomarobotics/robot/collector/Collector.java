@@ -17,9 +17,13 @@ public class Collector extends SubsystemIF {
     private final TalonFX deployRight = new TalonFX(RobotMap.DEPLOY_MOTOR_RIGHT);
     private final TalonFX collectMotor = new TalonFX(RobotMap.COLLECTOR_MOTOR);
 
-    // CONTROL REQUESTS
+    // TODO: CONTROL REQUESTS
 
-    // STATUS SIGNALS
+
+
+    // TODO: STATUS SIGNALS
+
+
 
     // STATE
     private CollectionState collectionState = CollectionState.DISABLED;
@@ -38,14 +42,40 @@ public class Collector extends SubsystemIF {
 
     // GETTERS
 
+    public double getLeftDeployVelocity() {
+        return deployLeft.getVelocity().getValueAsDouble();
+    }
+
+    public double getRightDeployVelocity() {
+        return deployRight.getVelocity().getValueAsDouble();
+    }
+
     // SETTERS
     private void setDeployPosition(double position) {
         deployRight.setControl(deployControl.withPosition(position));
         deployLeft.setControl(deployControl.withPosition(position));
     }
 
-    private void setRollerVelocity(double velocity) {
+    private void setCollectorVelocity(double velocity) {
         collectMotor.setControl(collectorControl.withVelocity(velocity));
+    }
+
+    public void setDeployVoltage(double voltage) {
+        deployLeft.setVoltage(voltage);
+        deployRight.setVoltage(voltage);
+    }
+
+    public void zeroDeploy() {
+        deployLeft.setPosition(CollectorConstants.ZERO_POSITION);
+        deployRight.setPosition(CollectorConstants.ZERO_POSITION);
+    }
+
+    public void setShouldEject(boolean check) {
+        shouldEject = check;
+    }
+
+    public void setShouldCollect(boolean check) {
+        shouldCollect = check;
     }
 
     public void toggleDeploy() {
@@ -65,20 +95,23 @@ public class Collector extends SubsystemIF {
                 if (shouldEject) setDeployEject();
             }
             case EJECT -> {
-                if (!shouldEject)
+                if (!shouldEject) deployUneject();
             }
             case STOWED -> {
+                if (shouldDeploy) setDeployDeployed();
+                if (shouldEject) setDeployEject();
             }
         }
         switch (collectionState) {
             case COLLECTING -> {
-
+                if (!shouldCollect) disableCollector();
+                if (shouldEject) collectorEject();
             }
             case EJECTING -> {
-
-
             }
             case DISABLED -> {
+                if (shouldCollect) collectorCollect();
+                if (shouldEject) collectorEject();
             }
         }
     }
@@ -94,7 +127,9 @@ public class Collector extends SubsystemIF {
     }
 
     public void setDeployDeployed() {
-        setDeployPosition(CollectorConstants.);
+        setDeployPosition(CollectorConstants.COLLECT_POSITION);
+        preEjectState = deploymentState;
+        deploymentState = DeploymentState.DEPLOYED;
     }
 
     public void setDeployStow() {
@@ -108,6 +143,20 @@ public class Collector extends SubsystemIF {
         deploymentState = DeploymentState.EJECT;
     }
 
+    public void disableCollector() {
+        collectMotor.stopMotor();
+        collectionState = CollectionState.DISABLED;
+    }
+
+    public void collectorEject() {
+        setCollectorVelocity(CollectorConstants.EJECTION_RPS);
+        collectionState = CollectionState.EJECTING;
+    }
+
+    public void collectorCollect() {
+        setCollectorVelocity(CollectorConstants.COLLECT_MAX_RPS);
+        collectionState = CollectionState.COLLECTING;
+    }
 
     // STATES
     public enum CollectionState {
@@ -119,6 +168,6 @@ public class Collector extends SubsystemIF {
     public enum DeploymentState {
         DEPLOYED,
         STOWED,
-        EJECT
+        EJECT,
     }
 }

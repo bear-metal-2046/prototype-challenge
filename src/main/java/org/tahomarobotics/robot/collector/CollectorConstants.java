@@ -23,6 +23,11 @@ public class CollectorConstants {
     private final static double COLLECT_MAX_ACCEL = COLLECT_MAX_RPS / 0.25;
     private final static double COLLECT_MAX_JERK = COLLECT_MAX_ACCEL / 0.125;
 
+    public final static double EJECTION_RPS = -50;
+
+    public final static double COLLECTOR_ZERO_VOLTAGE = -2.0;
+    public final static double COLLECTOR_ZERO_VELOCITY_TOLERANCE = 0.05;
+
     private final static double SUPPLY_CURRENT_LIMIT = 40;
     private final static double STATOR_CURRENT_LIMIT = 80;
 

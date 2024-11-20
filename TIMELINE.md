@@ -9,13 +9,13 @@ Figuring out how to structure some code
 ### What do you plan to do tomorrow?
 Finishing collector subsystem and commands & research
 ## Day 2 (11/19)
-ya
+
 ### What did you do?
-
+Finished most of the collector code, zero command, and OI
 ### What challenges did you have?
-
+Understanding and getting through preset constants and methods
 ### What do you plan to do tomorrow?
-
+Finishing collector subsystem & get as much of Indexer done as possible
 ## Day 3 (11/20)
 
 ### What did you do?
