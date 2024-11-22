@@ -23,7 +23,6 @@ public class OI extends SubsystemIF {
     private final CommandXboxController manipController = new CommandXboxController(1);
 
     private OI() {
-        // Disable OI periodic unless its being used.
         CommandScheduler.getInstance().unregisterSubsystem(this);
 
         Collector collector = Collector.getInstance();

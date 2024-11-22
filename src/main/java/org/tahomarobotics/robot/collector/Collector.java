@@ -50,6 +50,18 @@ public class Collector extends SubsystemIF {
         return deployRight.getVelocity().getValueAsDouble();
     }
 
+    public boolean isCollecting() {
+        return collectionState.equals(CollectionState.COLLECTING);
+    }
+
+    public boolean isEjecting() {
+        return collectionState.equals(CollectionState.EJECTING);
+    }
+
+    public boolean isDisabled() {
+        return collectionState.equals(CollectionState.DISABLED);
+    }
+
     // SETTERS
     private void setDeployPosition(double position) {
         deployRight.setControl(deployControl.withPosition(position));
