@@ -34,7 +34,7 @@ public class Collector extends SubsystemIF {
         SmartDashboard.putBoolean("Is Collector Collecting? ", isCollecting());
         SmartDashboard.putBoolean("Is Collector Deployed? ", isDeployed());
     }
-    //gets motor positions and velocity, collector states, and prints on SmartDashboard; called in periodic
+    // gets motor positions and velocity, collector states, and prints on SmartDashboard; called in periodic
 
     // STATE
     private CollectionState collectionState = CollectionState.DISABLED;
