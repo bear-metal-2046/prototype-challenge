@@ -51,7 +51,7 @@ public class Collector extends SubsystemIF {
         return INSTANCE;
     }
 
-    // GETTERS
+    //  GETTERS
 
     public double getLeftDeployVelocity() {
         return deployLeft.getVelocity().getValueAsDouble();
