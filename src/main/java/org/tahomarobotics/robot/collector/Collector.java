@@ -5,25 +5,36 @@ import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import org.tahomarobotics.robot.RobotMap;
 import org.tahomarobotics.robot.util.SubsystemIF;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Collector extends SubsystemIF {
     private static final Collector INSTANCE = new Collector();
-
-    private final MotionMagicVoltage deployControl = new MotionMagicVoltage(CollectorConstants.STOW_POSITION);
-    private final MotionMagicVelocityVoltage collectorControl = new MotionMagicVelocityVoltage(0);
 
     // MOTORS
     private final TalonFX deployLeft = new TalonFX(RobotMap.DEPLOY_MOTOR_LEFT);
     private final TalonFX deployRight = new TalonFX(RobotMap.DEPLOY_MOTOR_RIGHT);
     private final TalonFX collectMotor = new TalonFX(RobotMap.COLLECTOR_MOTOR);
 
-    // TODO: CONTROL REQUESTS
+
+    // CONTROL REQUESTS
+    private final MotionMagicVoltage deployControl = new MotionMagicVoltage(CollectorConstants.STOW_POSITION);
+    private final MotionMagicVelocityVoltage collectorControl = new MotionMagicVelocityVoltage(0);
 
 
+    // STATUS SIGNALS
+    private double leftMotorPosition, rightMotorPosition, collectorVelocity;
 
-    // TODO: STATUS SIGNALS
-
-
+    private void runStatusSignals() {
+        leftMotorPosition = deployLeft.getPosition().getValueAsDouble();
+        rightMotorPosition = deployRight.getPosition().getValueAsDouble();
+        collectorVelocity = collectMotor.getVelocity().getValueAsDouble();
+        SmartDashboard.putNumber("Left Deploy Position: ", leftMotorPosition);
+        SmartDashboard.putNumber("Right Deploy Position: ", rightMotorPosition);
+        SmartDashboard.putNumber("Collector Velocity: ", collectorVelocity);
+        SmartDashboard.putBoolean("Is Collector Collecting? ", isCollecting());
+        SmartDashboard.putBoolean("Is Collector Deployed? ", isDeployed());
+    }
+    //gets motor positions and velocity, collector states, and prints on SmartDashboard; called in periodic
 
     // STATE
     private CollectionState collectionState = CollectionState.DISABLED;
@@ -49,6 +60,24 @@ public class Collector extends SubsystemIF {
     public double getRightDeployVelocity() {
         return deployRight.getVelocity().getValueAsDouble();
     }
+
+    public boolean isCollecting() {
+        return collectionState.equals(CollectionState.COLLECTING);
+    }
+
+    public boolean isEjecting() {
+        return collectionState.equals(CollectionState.EJECTING);
+    }
+
+    public boolean isDisabled() {
+        return collectionState.equals(CollectionState.DISABLED);
+    }
+    //collector state booleans for indexer
+
+    private boolean isDeployed() {
+        return deploymentState.equals(DeploymentState.DEPLOYED);
+    }
+
 
     // SETTERS
     private void setDeployPosition(double position) {
@@ -89,6 +118,9 @@ public class Collector extends SubsystemIF {
 
     @Override
     public void periodic() {
+
+        runStatusSignals();
+
         switch (deploymentState) {
             case DEPLOYED -> {
                 if (!shouldDeploy) setDeployStow();
