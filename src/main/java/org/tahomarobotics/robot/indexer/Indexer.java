@@ -27,7 +27,7 @@ public class Indexer extends SubsystemIF {
 
     // BEAM BRAKES
     private final DigitalInput collectorBeamBrake = new DigitalInput(RobotMap.BEAM_BREAK_ONE);
-    private final DigitalInput shooterBeamBrake = new DigitalInput(RobotMap.BEAM_BREAK_ONE);
+    private final DigitalInput shooterBeamBrake = new DigitalInput(RobotMap.BEAM_BREAK_TWO);
 
     // CONTROL REQUESTS
     private final MotionMagicVelocityVoltage  indexerControl = new MotionMagicVelocityVoltage(0);

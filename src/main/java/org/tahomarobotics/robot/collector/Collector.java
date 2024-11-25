@@ -116,11 +116,8 @@ public class Collector extends SubsystemIF {
     boolean shouldEject = false;
     boolean shouldCollect = false;
 
-    @Override
-    public void periodic() {
-
-        runStatusSignals();
-
+    // state machine in a method called in periodic
+    private void stateMachine() {
         switch (deploymentState) {
             case DEPLOYED -> {
                 if (!shouldDeploy) setDeployStow();
@@ -140,12 +137,21 @@ public class Collector extends SubsystemIF {
                 if (shouldEject) collectorEject();
             }
             case EJECTING -> {
+                if (!shouldEject) disableCollector();
             }
             case DISABLED -> {
                 if (shouldCollect) collectorCollect();
                 if (shouldEject) collectorEject();
             }
         }
+    }
+
+
+
+    @Override
+    public void periodic() {
+        runStatusSignals();
+        stateMachine();
     }
 
 
