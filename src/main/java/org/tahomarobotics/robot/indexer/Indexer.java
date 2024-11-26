@@ -15,6 +15,7 @@ public class Indexer extends SubsystemIF {
 
     private Indexer() {
         motor.getConfigurator().apply(IndexerConstants.indexMotorConfiguration);
+        motor.setInverted(true);
     }
 
     public static Indexer getInstance() {

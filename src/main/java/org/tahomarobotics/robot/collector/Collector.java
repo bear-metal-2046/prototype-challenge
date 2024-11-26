@@ -32,8 +32,8 @@ public class Collector extends SubsystemIF {
         SmartDashboard.putNumber("Left Deploy Position: ", leftMotorPosition);
         SmartDashboard.putNumber("Right Deploy Position: ", rightMotorPosition);
         SmartDashboard.putNumber("Collector Velocity: ", collectorVelocity);
-        SmartDashboard.putBoolean("Is Collector Collecting? ", isCollecting());
-        SmartDashboard.putBoolean("Is Collector Deployed? ", isDeployed());
+        SmartDashboard.putString("Deployment State: ", deploymentState.toString());
+        SmartDashboard.putString("Collection State: ", collectionState.toString());
     }
     // gets motor positions and velocity, collector states, and prints on SmartDashboard; called in periodic
 
@@ -122,6 +122,7 @@ public class Collector extends SubsystemIF {
             case DEPLOYED -> {
                 if (!shouldDeploy) setDeployStow();
                 if (shouldEject) setDeployEject();
+                if (shouldDeploy) setDeployDeployed();
             }
             case EJECT -> {
                 if (!shouldEject) deployUneject();
@@ -135,6 +136,7 @@ public class Collector extends SubsystemIF {
             case COLLECTING -> {
                 if (!shouldCollect) disableCollector();
                 if (shouldEject) collectorEject();
+                if (shouldCollect) collectorCollect();
             }
             case EJECTING -> {
                 if (!shouldEject) disableCollector();
