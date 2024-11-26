@@ -31,10 +31,10 @@ public class OI extends SubsystemIF {
         driveController.povLeft().onTrue(Commands.runOnce(() -> collector.setShouldEject(true)))
                 .onFalse(Commands.runOnce(() -> collector.setShouldEject(false)));
 
-        driveController.leftTrigger().onTrue(Commands.run(() -> collector.setShouldCollect(true)))
+        driveController.leftTrigger().onTrue(Commands.runOnce(() -> collector.setShouldCollect(true)))
                 .onFalse(Commands.runOnce(() -> collector.setShouldCollect(false)));
 
-        driveController.leftBumper().onTrue(Commands.run(collector::toggleDeploy));
+        driveController.leftBumper().onTrue(Commands.runOnce(collector::toggleDeploy));
 
 
     }

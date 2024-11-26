@@ -8,7 +8,7 @@ import edu.wpi.first.math.util.Units;
 
 public class CollectorConstants {
     public final static double STOW_POSITION = Units.degreesToRotations(82),
-            COLLECT_POSITION = Units.degreesToRotations(182.5),
+            COLLECT_POSITION = Units.degreesToRotations(170),
             EJECT_POSITION = Units.degreesToRotations(147),
             ZERO_POSITION = Units.degreesToRotations(63.5);
 

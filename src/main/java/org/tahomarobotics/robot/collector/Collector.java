@@ -5,6 +5,7 @@ import com.ctre.phoenix6.controls.MotionMagicVelocityVoltage;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import org.tahomarobotics.robot.RobotMap;
+import org.tahomarobotics.robot.collector.commands.CollectorZeroCommand;
 import org.tahomarobotics.robot.util.SubsystemIF;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -148,7 +149,10 @@ public class Collector extends SubsystemIF {
         }
     }
 
-
+    @Override
+    public void onTeleopInit() {
+        new CollectorZeroCommand().schedule();
+    }
 
     @Override
     public void periodic() {
